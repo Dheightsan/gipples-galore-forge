@@ -1,0 +1,85 @@
+// Unofficial Forge 1.20.1 port of Gipples Galore 1.0.0 by Team Jelly / DigitalPear (Fabric 1.20.1).
+// Original source: github.com/ArshiaDPG/False-Futures-Fabric @ f24652e (2023-11-11), remapped from
+// Yarn to Mojang mappings with Loom's `migrateMappings`. See NOTICE.md for credits and changes.
+
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+}
+
+group = "net.digitalpear.gipples_galore"
+version = "1.20.1-1.0.0-forge"
+
+base {
+    archivesName = "gipples_galore"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'info'
+            // GeckoLib ships mixins with SRG names; remap its refmap in the dev environment.
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods { gipples_galore { source sourceSets.main } }
+        }
+        client {
+            // Separate folder so the client log does not overwrite the test server's.
+            workingDirectory project.file('run_client')
+            // Local test: -Pgg_join=127.0.0.1 joins the dev client to the local test server.
+            if (project.hasProperty('gg_join')) {
+                args '--quickPlayMultiplayer', project.property('gg_join')
+            }
+        }
+        server { args '--nogui' }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:4.8.4")
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [mod_version: version]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+            'Specification-Title'     : 'gipples_galore',
+            'Specification-Vendor'    : 'Team Jelly',
+            'Specification-Version'   : '1',
+            'Implementation-Title'    : project.name,
+            'Implementation-Version'  : project.jar.archiveVersion,
+            'Implementation-Vendor'   : 'Team Jelly (Forge port: Dheightsan)'
+        ])
+    }
+    from(rootProject.file('LICENSE')) { rename { 'LICENSE_gipples_galore_forge_port' } }
+    from(rootProject.file('NOTICE.md')) { rename { 'NOTICE_gipples_galore_forge_port.md' } }
+    finalizedBy 'reobfJar'
+}

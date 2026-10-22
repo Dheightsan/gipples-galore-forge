@@ -1,0 +1,41 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+# The port is released under CC BY-NC-SA 4.0. The original code by Team Jelly is Apache-2.0
+# (LICENSE_gipples_galore-1.20.1). See NOTICE_gipples_galore_forge_port.md.
+license="CC-BY-NC-SA-4.0 (original code by Team Jelly: Apache-2.0)"
+issueTrackerURL="https://github.com/Dheightsan/gipples-galore-forge/issues"
+
+[[mods]]
+modId="gipples_galore"
+version="${mod_version}"
+displayName="Gipples Galore"
+displayURL="https://github.com/Dheightsan/gipples-galore-forge"
+logoFile="icon.png"
+authors="Rowan, Monozari, sawlferton, Uraneptus, KingRolly, gaytwinkfemboy (Team Jelly). Forge port: Dheightsan"
+credits="Original mod by Team Jelly / DigitalPear for Fabric: https://modrinth.com/mod/gipples-galore. Unofficial Forge 1.20.1 port, not made or supported by Team Jelly."
+description='''
+Gipples are flying creatures that live in rare colonies inside caves, feed on glow lichen and produce gelatin.
+Unofficial Forge 1.20.1 port of Gipples Galore by Team Jelly.
+Please report port bugs on the port's issue tracker, not to Team Jelly.
+'''
+
+[[dependencies.gipples_galore]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.gipples_galore]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.gipples_galore]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[4.2,)"
+    ordering="NONE"
+    side="BOTH"

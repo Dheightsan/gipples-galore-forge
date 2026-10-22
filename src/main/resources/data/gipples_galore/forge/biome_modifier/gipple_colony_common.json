@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gipples_galore:extra_gipple_habitats",
+  "features": "gipples_galore:gipple_colony_common",
+  "step": "fluid_springs"
+}

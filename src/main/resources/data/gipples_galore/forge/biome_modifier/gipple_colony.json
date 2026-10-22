@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "gipples_galore:gipple_colony",
+  "step": "fluid_springs"
+}
