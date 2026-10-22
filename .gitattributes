@@ -5,3 +5,4 @@ gradlew text eol=lf
 *.jar binary
 *.ogg binary
 *.nbt binary
+src/main/resources/** -text
