@@ -21,6 +21,7 @@ The port is the 1.20.1 code of Gipples Galore, moved from Fabric to Forge 1.20.1
 - Constructors that need a `Supplier` on Forge: `RecordItem`, `MobBucketItem` and `FlowerPotBlock`. The empty flower pot registers the plants with `addPlant`.
 - Models use GeckoLib for Forge 4.8.4 instead of the Fabric build.
 - Fix: `models/block/gipplepad.json` pointed to a `falsefutures:` texture that does not exist, which also shows a missing texture on Fabric. It now points to `gipples_galore:block/gipplepad`.
+- Fix in 1.0.1: `GippleEntity.onGround()` now checks the block below without passing the gipple as collision context. With Galosphere installed, the old check called itself through Galosphere's collision mixin until the game crashed with a `StackOverflowError`.
 - Not included: the data generation classes. Their output (recipes, loot tables, tags and models) comes from the original 1.20.1 jar.
 
 47 of the 48 Java files were changed from the original and `GGRegistry.java` is new. The changed files keep the original package and class names.

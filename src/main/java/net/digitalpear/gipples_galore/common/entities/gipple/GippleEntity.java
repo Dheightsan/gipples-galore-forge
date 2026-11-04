@@ -8,6 +8,7 @@ import net.digitalpear.gipples_galore.init.GGSoundEvents;
 import net.digitalpear.gipples_galore.init.tags.GGBlockTags;
 import net.digitalpear.gipples_galore.init.tags.GGItemTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
@@ -54,6 +55,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -411,7 +413,9 @@ public class GippleEntity extends AgeableMob implements Bucketable, GeoEntity, F
 
     @Override
     public boolean onGround() {
-        return this.level().getBlockState(this.blockPosition().below()).entityCanStandOn(this.level(), this.blockPosition().below(), this);
+        // Shape without this entity as context: mods that read onGround() from getCollisionShape (Galosphere) recurse otherwise.
+        BlockPos below = this.blockPosition().below();
+        return Block.isFaceFull(this.level().getBlockState(below).getCollisionShape(this.level(), below), Direction.UP);
     }
 
     @Override
